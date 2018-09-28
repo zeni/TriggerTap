@@ -1,7 +1,8 @@
 
 /*
 Trigger Tap
- */
+SSP 2018/09
+*/
 
 #include "Trigger.h"
 
@@ -25,7 +26,7 @@ void loop()
     ledOn = false;
     for (int i = 0; i < N_TRIGGERS; i++)
     {
-        trigger[i]->setThreshold();
+        trigger[i]->setSensitivity();
         trigger[i]->setDuration();
         if ((trigger[i]->acquire()) && (!ledOn))
         {
