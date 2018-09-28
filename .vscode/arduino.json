@@ -1,6 +1,7 @@
 {
-    "board": "arduino:avr:uno",
-    "port": "COM7",
+    "board": "ATTinyCore:avr:attinyx61",
+    "port": "COM5",
     "sketch": "TriggerTap.ino",
-    "output": "../Build"
+    "output": "../Build",
+    "configuration": "LTO=disable,TimerClockSource=default,chip=861,clock=8internal,eesave=aenable,bod=disable"
 }
