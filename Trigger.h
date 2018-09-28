@@ -3,48 +3,54 @@ class Trigger
     int analogPin;
     int digitalPin;
     int thresholdPin;
+    int durationPin;
     bool isOn;
-    bool isOver;
-    unsigned long startTime, endTime;
-    int type;
+    unsigned long startTime;
     int threshold;
     int value;
+    int duration;
 
   public:
     Trigger();
-    Trigger(int t, int ap, int dp, int tp);
-    void acquire();
+    Trigger(int ap, int dp, int tp, int durp);
+    bool acquire();
     void setThreshold();
+    void setDuration();
+    bool getIsOn();
 };
 
 Trigger::Trigger() {}
 
-Trigger::Trigger(int t, int ap, int dp, int tp)
+Trigger::Trigger(int ap, int dp, int tp, int durp)
 {
     analogPin = ap;
     digitalPin = dp;
     thresholdPin = tp;
+    durationPin = durp;
     pinMode(digitalPin, OUTPUT);
     isOn = false;
-    isOver = false;
-    startTime = micros();
-    endTime = micros();
-    type = t;
+    startTime = millis();
     setThreshold();
+    setDuration();
     value = 0;
 }
 
 void Trigger::setThreshold()
 {
-    threshold = analogRead(thresholdPin);
+    threshold = max(analogRead(thresholdPin), 10);
 }
 
-void Trigger::setType(int t)
+void Trigger::setDuration()
 {
-    type = t;
+    duration = max(analogRead(durationPin), 1);
 }
 
-void Trigger::acquire()
+bool Trigger::getIsOn()
+{
+    return isOn;
+}
+
+bool Trigger::acquire()
 {
     if (!isOn)
     {
@@ -53,28 +59,16 @@ void Trigger::acquire()
         {
             digitalWrite(digitalPin, HIGH);
             isOn = true;
-            isOver = true;
-            startTime = micros();
+            startTime = millis();
         }
     }
     else
     {
-        if (isOver)
+        if ((millis() - startTime) > duration)
         {
-            value = analogRead(analogPin);
-            if (value < (threshold * .5))
-            {
-                endTime = micros();
-                isOver = false;
-            }
-        }
-        else
-        {
-            if ((micros() - startTime) > (endTime - startTime) * 100)
-            {
-                digitalWrite(digitalPin, LOW);
-                isOn = false;
-            }
+            digitalWrite(digitalPin, LOW);
+            isOn = false;
         }
     }
+    return isOn;
 }

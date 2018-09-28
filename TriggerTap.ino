@@ -6,18 +6,33 @@ Trigger Tap
 #include "Trigger.h"
 
 #define N_TRIGGERS 3
-#define TYPE_PIEZO 0
-#define TYPE_AUDIO 1
+#define LED 6
 
-Trigger *trigger;
+Trigger *trigger[N_TRIGGERS];
+bool ledOn;
 
 void setup()
 {
-    trigger = new Trigger(TYPE_PIEZO, A0, 10, A7);
-    trigger->setThreshold();
+    pinMode(LED, OUTPUT);
+    ledOn = false;
+    trigger[0] = new Trigger(A0, 9, A7, A3);
+    trigger[1] = new Trigger(A1, 8, A8, A4);
+    trigger[2] = new Trigger(A2, 7, A9, A5);
 }
 
 void loop()
 {
-    trigger->acquire();
+    ledOn = false;
+    for (int i = 0; i < N_TRIGGERS; i++)
+    {
+        trigger[i]->setThreshold();
+        trigger[i]->setDuration();
+        if ((trigger[i]->acquire()) && (!ledOn))
+        {
+            digitalWrite(LED, HIGH);
+            ledOn = true;
+        }
+    }
+    if (!ledOn)
+        digitalWrite(LED, LOW);
 }
