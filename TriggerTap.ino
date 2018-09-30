@@ -32,7 +32,6 @@ void setup()
     trigger[0] = new Trigger(A0, 9, A7, A3);
     trigger[1] = new Trigger(A1, 8, A8, A4);
     trigger[2] = new Trigger(A2, 7, A9, A5);
-    //digitalWrite(13, HIGH);
     pinMode(SETTING, INPUT_PULLUP);
     checkSetup();
     GIMSK |= (1 << PCIE1);
