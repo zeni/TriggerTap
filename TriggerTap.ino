@@ -7,8 +7,8 @@ SSP 2018/09
 #include "Trigger.h"
 
 #define N_TRIGGERS 3
-#define LED 6
-#define SETTING 14
+#define LED_PIN 6
+#define SETUP_MODE_PIN 14
 
 Trigger *trigger[N_TRIGGERS];
 bool ledOn;
@@ -26,13 +26,13 @@ ISR(PCINT_vect)
 
 void setup()
 {
-    pinMode(LED, OUTPUT);
+    pinMode(LED_PIN, OUTPUT);
     pinMode(13, OUTPUT);
     ledOn = false;
     trigger[0] = new Trigger(A0, 9, A7, A3);
     trigger[1] = new Trigger(A1, 8, A8, A4);
     trigger[2] = new Trigger(A2, 7, A9, A5);
-    pinMode(SETTING, INPUT_PULLUP);
+    pinMode(SETUP_MODE_PIN, INPUT_PULLUP);
     checkSetup();
     GIMSK |= (1 << PCIE1);
     PCMSK0 |= (1 << PCINT3);
@@ -51,12 +51,12 @@ void loop()
             trigger[i]->setSustain();
             if ((trigger[i]->acquire()) && (!ledOn))
             {
-                digitalWrite(LED, HIGH);
+                digitalWrite(LED_PIN, HIGH);
                 ledOn = true;
             }
         }
         if (!ledOn)
-            digitalWrite(LED, LOW);
+            digitalWrite(LED_PIN, LOW);
     }
     else
     {
@@ -67,5 +67,5 @@ void loop()
 
 void checkSetup()
 {
-    setupMode = digitalRead(SETTING);
+    setupMode = digitalRead(SETUP_MODE_PIN);
 }
