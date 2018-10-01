@@ -3,18 +3,18 @@ class Trigger
     int inputPin;
     int relayPin;
     int sensitivityPin;
-    int durationPin;
+    int sustainPin;
     bool isOn;
     unsigned long startTime; // ms
     int sensitivity;         // threshold on input
-    int duration;            // ms
+    int sustain;             // ms
 
   public:
     Trigger();
     Trigger(int ap, int dp, int tp, int durp);
     bool acquire();
     void setSensitivity();
-    void setDuration();
+    void setSustain();
     bool getIsOn();
 };
 
@@ -25,12 +25,12 @@ Trigger::Trigger(int ap, int dp, int tp, int durp)
     inputPin = ap;
     relayPin = dp;
     sensitivityPin = tp;
-    durationPin = durp;
+    sustainPin = durp;
     pinMode(relayPin, OUTPUT);
     isOn = false;
     startTime = millis();
     setSensitivity();
-    setDuration();
+    setSustain();
 }
 
 void Trigger::setSensitivity()
@@ -38,9 +38,9 @@ void Trigger::setSensitivity()
     sensitivity = max(analogRead(sensitivityPin), 5);
 }
 
-void Trigger::setDuration()
+void Trigger::setSustain()
 {
-    duration = max(analogRead(durationPin), 1);
+    sustain = max(analogRead(sustainPin), 1);
 }
 
 bool Trigger::getIsOn()
@@ -61,7 +61,7 @@ bool Trigger::acquire()
     }
     else
     {
-        if ((millis() - startTime) > duration)
+        if ((millis() - startTime) > sustain)
         {
             digitalWrite(relayPin, LOW);
             isOn = false;

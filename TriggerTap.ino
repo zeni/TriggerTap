@@ -48,7 +48,7 @@ void loop()
         for (int i = 0; i < N_TRIGGERS; i++)
         {
             trigger[i]->setSensitivity();
-            trigger[i]->setDuration();
+            trigger[i]->setSustain();
             if ((trigger[i]->acquire()) && (!ledOn))
             {
                 digitalWrite(LED, HIGH);
