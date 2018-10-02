@@ -12,10 +12,9 @@ class Trigger
   public:
     Trigger();
     Trigger(int ap, int dp, int tp, int durp);
-    bool acquire();
+    void acquire();
     void setSensitivity();
     void setSustain();
-    bool getIsOn();
 };
 
 Trigger::Trigger() {}
@@ -43,12 +42,7 @@ void Trigger::setSustain()
     sustain = max(analogRead(sustainPin), 1);
 }
 
-bool Trigger::getIsOn()
-{
-    return isOn;
-}
-
-bool Trigger::acquire()
+void Trigger::acquire()
 {
     if (!isOn)
     {
@@ -67,5 +61,4 @@ bool Trigger::acquire()
             isOn = false;
         }
     }
-    return isOn;
 }
