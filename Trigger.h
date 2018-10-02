@@ -11,7 +11,7 @@ class Trigger
 
   public:
     Trigger();
-    Trigger(int ap, int dp, int tp, int durp);
+    Trigger(int ip, int rp, int sep, int sup);
     void acquire();
     void setSensitivity();
     void setSustain();
@@ -19,12 +19,12 @@ class Trigger
 
 Trigger::Trigger() {}
 
-Trigger::Trigger(int ap, int dp, int tp, int durp)
+Trigger::Trigger(int ip, int rp, int sep, int sup)
 {
-    inputPin = ap;
-    relayPin = dp;
-    sensitivityPin = tp;
-    sustainPin = durp;
+    inputPin = ip;
+    relayPin = rp;
+    sensitivityPin = sep;
+    sustainPin = sup;
     pinMode(relayPin, OUTPUT);
     isOn = false;
     startTime = millis();
