@@ -34,12 +34,12 @@ Trigger::Trigger(int ip, int rp, int sep, int sup)
 
 void Trigger::setSensitivity()
 {
-    sensitivity = max(analogRead(sensitivityPin), 5);
+    sensitivity = max(analogRead(sensitivityPin), 30);
 }
 
 void Trigger::setSustain()
 {
-    sustain = max(analogRead(sustainPin), 1);
+    sustain = max(analogRead(sustainPin), 10);
 }
 
 void Trigger::acquire()

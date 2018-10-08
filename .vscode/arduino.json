@@ -1,6 +1,6 @@
 {
     "board": "ATTinyCore:avr:attinyx61",
-    "port": "COM5",
+    "port": "COM8",
     "sketch": "TriggerTap.ino",
     "output": "../Build",
     "configuration": "LTO=disable,TimerClockSource=default,chip=861,clock=8internal,eesave=aenable,bod=disable"
